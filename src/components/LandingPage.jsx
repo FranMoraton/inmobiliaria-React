@@ -5,6 +5,7 @@ import FilterHouseDisplayer from './FilterHouseDisplayer/FilterHouseDisplayer';
 import FormBuilder from './Form/FormBuilder';
 import ListHouses from './ListHouses/ListHouses';
 import UserDisplay from './UserDisplay/UserDisplay';
+import './LandingPage.css';
 
 const URLS = {
     LOGIN: '/user/login',
@@ -164,6 +165,15 @@ class LandingPage extends Component {
                     &&
                     <UserDisplay userDniGlobal={this.state.dni} url={this.state.selectedUrl} />
                 }
+                {
+                    URLS.EMPTY === this.state.selectedUrl
+                    &&
+                    <div className="header">
+                        <div className="title">
+                            <h1>TENEMOS TU CASA DE ENSUEÑO</h1>
+                            <a className="button" onClick={() => this.selectUrl(URLS.FILTER)}>LLEVAME!</a>
+                        </div>
+                    </div>}
             </div>
         );
     }

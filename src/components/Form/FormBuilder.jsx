@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Fade, Well, FormGroup, FormControl, Button } from 'react-bootstrap';
+import './FormBuilder.css';
+
 
 const URLS = {
     LOGIN: '/user/login',
@@ -126,7 +128,7 @@ class FormBuilder extends Component {
 
     render() {
         return (
-            <div className="container-fluid">
+            <div className="my-form">
                 <form className="baseForm" onSubmit={this.handleSubmit}>
                     <FormGroup>
                         {this.selectForm(this.state.url)}

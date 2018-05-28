@@ -157,7 +157,7 @@ class FilterHouseDisplayer extends Component {
 
     render() {
         return (
-            <div className="container-fluid">
+            <div className="houses">
                 {this.state.visibleAll ?
                     <Grid>
                         <Row>

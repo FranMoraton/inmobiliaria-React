@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Thumbnail, Grid, Row, Col, Button, FormGroup, FormControl, ControlLabel, Form, Pager } from 'react-bootstrap';
 import HouseDisplayer from './../HouseDisplayer/HouseDisplayer';
 import BidTable from '../BidTable/BidTable';
+import './ListHouse.css';
 
 const URLS = {
     USER_HOUSES: '/houses/houses',
@@ -91,6 +92,7 @@ class ListHouses extends Component {
     render() {
         return (
             <div className="container-fluid">
+                {this.props.url === URLS.USER_HOUSES ? <h1 className="houses-title">CASAS</h1> : <h1 className="houses-title">PUJAS</h1>}
                 {this.state.visibleAll &&
                     <Grid>
                         <Row>
