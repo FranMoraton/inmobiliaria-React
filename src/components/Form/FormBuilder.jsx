@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Fade, Well, FormGroup, FormControl, Button } from 'react-bootstrap';
+import { Fade, Well, FormGroup, FormControl, Button, Modal } from 'react-bootstrap';
 import './FormBuilder.css';
 
 
@@ -56,7 +56,9 @@ class FormBuilder extends Component {
             userDniGlobal: this.props.userDniGlobal,
             send: true,
             done: false,
-            formControls: []
+            formControls: [],
+            visibleUploader: true,
+            uploader: ""
         }
     }
 
@@ -100,6 +102,10 @@ class FormBuilder extends Component {
         let array = mapHelper.map((child) =>
             payload[child.name] = child.value);
 
+        if (this.props.url === URLS.ADD_HOUSE) {
+            payload["dni"] = this.props.userDniGlobal;
+        }
+
         let call = async () => {
 
             let responseFromForm = await fetch(this.props.url, {
@@ -115,6 +121,25 @@ class FormBuilder extends Component {
 
             let json = await responseFromForm.json();
 
+            if (200 !== responseFromForm.status) {
+                this.setState({
+                    uploader:
+                        <div>
+                            <Modal show={this.state.visibleUploader} onHide={this.eraseModal}>
+                                <Modal.Header>
+                                    <Modal.Title>{responseFromForm.status}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {responseFromForm.statusText}
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button onClick={this.eraseModal}>Cerrar</Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </div>
+                })
+            }
+
                        
             if (200 === responseFromForm.status && URLS.LOGIN === this.props.url) {
                 
@@ -125,10 +150,17 @@ class FormBuilder extends Component {
         call();
     }
 
+    eraseModal = () => {
+        this.setState({
+            uploader: ''
+        });
+    }
+
 
     render() {
         return (
             <div className="my-form">
+                {this.state.visibleUploader && this.state.uploader}
                 <form className="baseForm" onSubmit={this.handleSubmit}>
                     <FormGroup>
                         {this.selectForm(this.state.url)}

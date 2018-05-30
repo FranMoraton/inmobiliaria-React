@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Thumbnail, Grid, Row, Col, Button, FormGroup, FormControl, ControlLabel, Form, Pager, Modal} from 'react-bootstrap';
+import { Thumbnail, Grid, Row, Col, Button, FormGroup, FormControl, ControlLabel, Form, Pager, Modal } from 'react-bootstrap';
 import HouseDisplayer from './../HouseDisplayer/HouseDisplayer';
 import UploadPhoto from './../UploadPhoto/UploadPhoto';
 import BidTable from '../BidTable/BidTable';
@@ -41,26 +41,28 @@ class ListHouses extends Component {
                 }),
             });
             let json = await response.json();
-          
 
-            let houses = json.map((item, i) =>
-                <Col key={i} xs={12} md={3}>
-                    <Thumbnail src={item.photos[0]} alt="242x200" key={item.id} onClick={() => this.selectHouse(item.id)}>
-                        <h3>{item.sellingPrize}€</h3>
-                        <p>{item.country}</p>
-                        <p>{item.city}</p>
-                        {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
-                        {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
-                    </Thumbnail>
-                    {this.props.url === URLS.USER_HOUSES && <Button onClick={() => this.uploadImage(item.id)}> SUBIR FOTO </Button>}
-                    {this.props.url === URLS.USER_HOUSES && <Button onClick={() => this.showTable(item.id)}> OFERTAS </Button>}
-                </Col>
-            )
+            if (200 === response.status) {
 
-            this.setState({
-                responseHouse: json,
-                housesToLoad: houses
-            });
+                let houses = json.map((item, i) =>
+                    <Col key={i} xs={12} md={3}>
+                        <Thumbnail src={item.photos[0]} alt="242x200" key={item.id} onClick={() => this.selectHouse(item.id)}>
+                            <h3>{item.sellingPrize}€</h3>
+                            <p>{item.country}</p>
+                            <p>{item.city}</p>
+                            {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
+                            {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
+                        </Thumbnail>
+                        {this.props.url === URLS.USER_HOUSES && <Button onClick={() => this.uploadImage(item.id)}> SUBIR FOTO </Button>}
+                        {this.props.url === URLS.USER_HOUSES && <Button onClick={() => this.showTable(item.id)}> OFERTAS </Button>}
+                    </Col>
+                )
+
+                this.setState({
+                    responseHouse: json,
+                    housesToLoad: houses
+                });
+            }
         }
 
         request();
@@ -79,7 +81,7 @@ class ListHouses extends Component {
     selectHouse = (number) => {
         this.setState({
             visibleAll: false,
-            visibleTable:false,
+            visibleTable: false,
             visibleHouse: true,
             houseId: number
         })
@@ -123,15 +125,15 @@ class ListHouses extends Component {
                         </Row>
                     </Grid>
                 }
-                    
+
                 {this.state.visibleHouse &&
-                    <HouseDisplayer houseId={this.state.houseId} 
-                        userDniGlobal={this.state.userDniGlobal} callBack={this.ListHouseDisplayerCallBack} showBidForm={false}/>
+                    <HouseDisplayer houseId={this.state.houseId}
+                        userDniGlobal={this.state.userDniGlobal} callBack={this.ListHouseDisplayerCallBack} showBidForm={false} />
                 }
 
                 {this.state.visibleTable &&
-                    <BidTable userDniGlobal={this.props.userDniGlobal} 
-                    houseId={this.state.houseId} callBack={this.ListHouseDisplayerCallBack}/>}
+                    <BidTable userDniGlobal={this.props.userDniGlobal}
+                        houseId={this.state.houseId} callBack={this.ListHouseDisplayerCallBack} />}
             </div>
         )
     }

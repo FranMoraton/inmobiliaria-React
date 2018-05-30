@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Carousel, Button, FormGroup, FormControl, Form, Col, Row } from 'react-bootstrap';
+import { Image, Carousel, Button, FormGroup, FormControl, Form, Col, Row , Modal} from 'react-bootstrap';
 import './HouseDisplayer.css';
 
 class HouseDisplayer extends Component {
@@ -11,7 +11,9 @@ class HouseDisplayer extends Component {
             responseHouse: [{}],
             housePhotos: [],
             bidPannel: "",
-            bidding: false
+            bidding: false,
+            visibleUploader: true,
+            uploader: ""
         }
     }
 
@@ -71,25 +73,58 @@ class HouseDisplayer extends Component {
             let json = await response.json();
 
             if (200 === response.status) {
-                console.log(response.status);
                 this.setState({
-                    bidPannel: response.status
-                });
+                    uploader:
+                        <div>
+                            <Modal show={this.state.visibleUploader} onHide={this.eraseModal}>
+                                <Modal.Header>
+                                    <Modal.Title>{response.status}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {response.statusText}
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button onClick={this.eraseModal}>Cerrar</Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </div>
+                })
             }
 
-
-            console.log(response.status);
-            console.log(response.data);
+            if (200 !== response.status) {
+                this.setState({
+                    uploader:
+                        <div>
+                            <Modal show={this.state.visibleUploader} onHide={this.eraseModal}>
+                                <Modal.Header>
+                                    <Modal.Title>{response.status}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {response.statusText}
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button onClick={this.eraseModal}>Cerrar</Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </div>
+                })
+            }
         }
 
         request();
     }
 
+    eraseModal = () => {
+        this.setState({
+            uploader: ''
+        });
+    }
 
 
     render() {
         return (
             <div className="container-fluid">
+                {this.state.visibleUploader && this.state.uploader}
                 <Row>
                     <Col xs={0} md={1}></Col>
                     <Col xs={12} md={5}>

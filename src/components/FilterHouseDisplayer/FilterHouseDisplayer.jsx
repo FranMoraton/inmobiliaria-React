@@ -65,7 +65,8 @@ class FilterHouseDisplayer extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             userDniGlobal: nextProps.userDniGlobal,
-            url: nextProps.url
+            url: nextProps.url,
+            pagination: nextProps.pagination
         });
     }
 
@@ -81,15 +82,14 @@ class FilterHouseDisplayer extends Component {
         if (form.minPrize.value === '') {
             form.minPrize.value = this.state.minPrize
         }
-        /*
+        
                 this.setState({
-                    pagination: 1,
                     maxPrize: form.maxPrize.value,
                     minPrize: form.minPrize.value,
                     city: form.city.value,
                     country: form.city.value
                 })
-        */
+        
         let request = async () => {
             let response = await fetch(this.props.url, {
                 headers: {
@@ -99,7 +99,7 @@ class FilterHouseDisplayer extends Component {
                 method: 'POST',
                 body: JSON.stringify({
 
-                    page: this.state.pagination,
+                    page: 1,
                     maxPrize: form.maxPrize.value,
                     minPrize: form.minPrize.value,
                     city: form.city.value,
@@ -120,7 +120,8 @@ class FilterHouseDisplayer extends Component {
 
             this.setState({
                 responseHouse: json,
-                housesToLoad: houses
+                housesToLoad: houses,
+                pagination: 1,
             });
         }
 
@@ -142,17 +143,93 @@ class FilterHouseDisplayer extends Component {
         })
     }
     paginationLess = () => {
+        let newPagination = 1;
         if (this.state.pagination > 1) {
-            this.setState({
-                pagination: this.state.pagination - 1
-            })
+  
+            newPagination = this.state.pagination - 1;
+
         }
+        console.log(this.state.pagination);
+        let request = async () => {
+            let response = await fetch(this.props.url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({
+
+                    page: newPagination,
+                    maxPrize: this.state.maxPrize,
+                    minPrize: this.state.minPrize,
+                    city: this.state.city,
+                    country: this.state.country
+                }),
+            });
+            let json = await response.json();
+
+            let houses = json.map((item, i) =>
+                <Col key={i} xs={12} md={3}>
+                    <Thumbnail src={item.photos[0]} alt="242x200" key={item.id} onClick={() => this.selectHouse(item.id)}>
+                        <h3>{item.sellingPrize}€</h3>
+                        <p>{item.country}</p>
+                        <p>{item.city}</p>
+                    </Thumbnail>
+                </Col>
+            )
+
+            this.setState({
+                responseHouse: json,
+                housesToLoad: houses,
+                pagination: newPagination
+            });
+        }
+
+        request();
     }
 
     paginationPlus = () => {
-        this.setState({
-            pagination: this.state.pagination + 1
-        })
+        let newPagination = this.state.pagination + 1;
+            
+        console.log(newPagination);
+        
+        let request = async () => {
+            let response = await fetch(this.props.url, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({
+
+                    page: newPagination,
+                    maxPrize: this.state.maxPrize,
+                    minPrize: this.state.minPrize,
+                    city: this.state.city,
+                    country: this.state.country
+                }),
+            });
+            let json = await response.json();
+
+            let houses = json.map((item, i) =>
+                <Col key={i} xs={12} md={3}>
+                    <Thumbnail src={item.photos[0]} alt="242x200" key={item.id} onClick={() => this.selectHouse(item.id)}>
+                        <h3>{item.sellingPrize}€</h3>
+                        <p>{item.country}</p>
+                        <p>{item.city}</p>
+                    </Thumbnail>
+                </Col>
+            )
+
+            this.setState({
+                responseHouse: json,
+                housesToLoad: houses,
+                pagination: newPagination
+            });
+        }
+        console.log(this.state.pagination);
+
+        request();
     }
 
     render() {
