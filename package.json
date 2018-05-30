@@ -11,7 +11,7 @@
     "react-bootstrap": "^0.32.1",
     "react-dom": "^16.4.0",
     "react-dropzone": "^4.2.9",
-    "react-images-upload": "^1.0.95",
+    "react-images-upload": "^1.1.99",
     "react-scripts": "1.1.4",
     "react-stringify": "^1.0.0"
   },

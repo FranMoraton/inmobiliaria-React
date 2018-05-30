@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Image, Carousel, Button, FormGroup, FormControl, Form } from 'react-bootstrap';
-
+import { Image, Carousel, Button, FormGroup, FormControl, Form, Col, Row } from 'react-bootstrap';
+import './HouseDisplayer.css';
 
 class HouseDisplayer extends Component {
     constructor(props) {
@@ -30,7 +30,7 @@ class HouseDisplayer extends Component {
 
             let photosCarousel = json.photos.map((item, i) =>
                 <Carousel.Item key={i}>
-                    <Image key={i.i} className="imgCarousel" width={600} height={500} responsive alt="600x500" src={item} />
+                    <Image key={i.i} className="imgCarousel" width={900} height={500} responsive alt="imagen casa" src={item} />
                 </Carousel.Item>
             )
 
@@ -90,30 +90,37 @@ class HouseDisplayer extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <Button onClick={this.props.callBack} >
-                    GO BACK
-            </Button>
-                {0 < this.state.housePhotos.length &&
-                <Carousel>
-                    {this.state.housePhotos}
-                </Carousel>
-                }
-                <h1>PRECIO DE VENTA {this.state.responseHouse.sellingPrize}</h1>
-                <h1>DIRECCION {this.state.responseHouse.adress}</h1>
-                <h1>PAIS {this.state.responseHouse.country}</h1>
-                <h1>CIUDAD {this.state.responseHouse.city}</h1>
-
-
-            {this.props.showBidForm && <Button onClick={() => this.makeBid()} >
-                    MAKE YOUR BID
-            </Button> }
-                {this.state.bidding &&
-                    <Form inline onSubmit={this.handleNewBid}>
-                        <FormGroup controlId="formInlineBid">
-                            <FormControl type="text" key="money" name="money" placeholder="Your Bid €€" />
-                        </FormGroup>{' '}
-                        <Button type="submit">Send It</Button>
-                    </Form>}
+                <Row>
+                    <Col xs={0} md={1}></Col>
+                    <Col xs={12} md={5}>
+                        <Button onClick={this.props.callBack} >
+                            GO BACK
+                        </Button >
+                        <h1>PRECIO DE VENTA {this.state.responseHouse.sellingPrize}</h1>
+                        <h1>DIRECCION {this.state.responseHouse.adress}</h1>
+                        <h1>PAIS {this.state.responseHouse.country}</h1>
+                        <h1>CIUDAD {this.state.responseHouse.city}</h1>
+                        {this.props.showBidForm && <Button onClick={() => this.makeBid()} >
+                            MAKE YOUR BID
+                        </Button>}
+                        {this.state.bidding &&
+                            <Form inline onSubmit={this.handleNewBid}>
+                                <FormGroup className="formBids" controlId="formInlineBid">
+                                    <FormControl type="text" key="money" name="money" placeholder="Your Bid €€" />
+                                </FormGroup>{' '}
+                                <Button type="submit">Send It</Button>
+                            </Form>}
+                    </Col>
+                    {0 < this.state.housePhotos.length &&
+                        <Col xs={12} md={5}>
+                            <Carousel className="carousel-size">
+                                {this.state.housePhotos}
+                            </Carousel>
+                        </Col>
+                        
+                    }
+                    <Col xs={0} md={1}></Col>
+                </Row>
             </div>
 
         )

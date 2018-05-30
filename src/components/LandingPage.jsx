@@ -91,7 +91,7 @@ class LandingPage extends Component {
     render() {
         return (
             <div className="container-fluid">
-                <Navbar inverse>
+                <Navbar className="navBarFixed" inverse>
                     <Navbar.Header>
                         <Navbar.Brand>
                             <a onClick={() => this.selectUrl(URLS.EMPTY)} href="#home">Inmobiliaria</a>

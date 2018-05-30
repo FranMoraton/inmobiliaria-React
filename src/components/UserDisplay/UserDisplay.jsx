@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button} from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import FormBuilder from './../Form/FormBuilder';
 
 
@@ -39,8 +39,10 @@ class UserDisplay extends Component {
 
             let json = await response.json();
 
-            let userBirthDate = json[0].birthDate.date;
-            let userRegisterDate = json[0].registerDate.date;
+            let userBirthDate = json[0].birthDate.date.substr(0, 10);
+            console.log(userBirthDate);
+            let userRegisterDate = json[0].registerDate.date.substr(0, 10);
+            console.log(userRegisterDate);
 
 
 
@@ -72,12 +74,24 @@ class UserDisplay extends Component {
     render() {
         return (
             <div>
-                <h1>USER{this.state.userInfo.dni}</h1>
-                <h1>BIRTHDATE{this.state.userBirthDate}</h1>
-                <h1>REGISTER DATE{this.state.userRegisterDate}</h1>
-                <h3>{this.state.userInfo.photo}</h3>
-                <Button onClick={this.UpdateUserVisibility}>UPDATE</Button>
-               {this.state.updateVisible && <FormBuilder url={this.state.url} />}
+                <Row>
+                    <Col xs={0} md={1}></Col>
+                    <Col xs={12} md={5}>
+                        <h1>USER</h1>
+                        <h2>{this.state.userInfo.dni}</h2>
+                        <h1>BIRTHDATE</h1>
+                        <h2>{this.state.userBirthDate}</h2>
+                        <h1>REGISTER DATE</h1>
+                        <h2>{this.state.userRegisterDate}</h2>
+                        <h3>{this.state.userInfo.photo}</h3>
+                    </Col>
+
+                    <Col xs={12} md={5}>
+                        <Button onClick={this.UpdateUserVisibility}>UPDATE</Button>
+                        {this.state.updateVisible && <FormBuilder url={this.state.url} />}
+                    </Col>
+                    <Col xs={0} md={1}></Col>
+                </Row>
             </div>
         )
     }

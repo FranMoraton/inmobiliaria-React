@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Thumbnail, Grid, Row, Col, Button, FormGroup, FormControl, ControlLabel, Form, Pager } from 'react-bootstrap';
+import { Thumbnail, Grid, Row, Col, Button, FormGroup, FormControl, ControlLabel, Form, Pager, Modal} from 'react-bootstrap';
 import HouseDisplayer from './../HouseDisplayer/HouseDisplayer';
+import UploadPhoto from './../UploadPhoto/UploadPhoto';
 import BidTable from '../BidTable/BidTable';
 import './ListHouse.css';
 
 const URLS = {
     USER_HOUSES: '/houses/houses',
-    BIDS_BY_USER: '/houses/biddedhouses'
+    BIDS_BY_USER: '/houses/biddedhouses',
+    INSERT_HOUSE_PHOTO: '/houses/photo/'
 }
 
 class ListHouses extends Component {
@@ -19,7 +21,9 @@ class ListHouses extends Component {
             housesToLoad: [],
             houseId: '',
             visibleTable: false,
-            visibleHouse: false
+            visibleHouse: false,
+            visibleUploader: true,
+            uploader: ""
         }
     }
 
@@ -48,7 +52,7 @@ class ListHouses extends Component {
                         {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
                         {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
                     </Thumbnail>
-                    {this.props.url === URLS.USER_HOUSES && <Button> SUBIR FOTO </Button>}
+                    {this.props.url === URLS.USER_HOUSES && <Button onClick={() => this.uploadImage(item.id)}> SUBIR FOTO </Button>}
                     {this.props.url === URLS.USER_HOUSES && <Button onClick={() => this.showTable(item.id)}> OFERTAS </Button>}
                 </Col>
             )
@@ -67,7 +71,8 @@ class ListHouses extends Component {
         this.setState({
             visibleAll: true,
             visibleTable: false,
-            visibleHouse: false
+            visibleHouse: false,
+            uploader: ''
         })
     }
 
@@ -89,9 +94,27 @@ class ListHouses extends Component {
         })
     }
 
+    uploadImage = (houseId) => {
+        this.setState({
+            uploader:
+                <div>
+                    <Modal show={this.state.visibleUploader} onHide={this.ListHouseDisplayerCallBack}>
+                        <Modal.Body>
+                            <UploadPhoto index={houseId} url={URLS.INSERT_HOUSE_PHOTO} />
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button onClick={this.ListHouseDisplayerCallBack}>Cerrar</Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
+        })
+            ;
+    }
+
     render() {
         return (
             <div className="container-fluid">
+                {this.state.visibleUploader && this.state.uploader}
                 {this.props.url === URLS.USER_HOUSES ? <h1 className="houses-title">CASAS</h1> : <h1 className="houses-title">PUJAS</h1>}
                 {this.state.visibleAll &&
                     <Grid>
