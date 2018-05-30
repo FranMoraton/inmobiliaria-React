@@ -149,7 +149,7 @@ class FilterHouseDisplayer extends Component {
             newPagination = this.state.pagination - 1;
 
         }
-        console.log(this.state.pagination);
+
         let request = async () => {
             let response = await fetch(this.props.url, {
                 headers: {
@@ -191,7 +191,6 @@ class FilterHouseDisplayer extends Component {
     paginationPlus = () => {
         let newPagination = this.state.pagination + 1;
             
-        console.log(newPagination);
         
         let request = async () => {
             let response = await fetch(this.props.url, {
@@ -227,7 +226,6 @@ class FilterHouseDisplayer extends Component {
                 pagination: newPagination
             });
         }
-        console.log(this.state.pagination);
 
         request();
     }
