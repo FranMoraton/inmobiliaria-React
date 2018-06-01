@@ -78,10 +78,10 @@ class HouseDisplayer extends Component {
                         <div>
                             <Modal show={this.state.visibleUploader} onHide={this.eraseModal}>
                                 <Modal.Header>
-                                    <Modal.Title>{response.status}</Modal.Title>
+                                    <Modal.Title>{response.status} {response.statusText}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    {response.statusText}
+                                    Oferta realizada con exito
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button onClick={this.eraseModal}>Cerrar</Button>
@@ -97,10 +97,10 @@ class HouseDisplayer extends Component {
                         <div>
                             <Modal show={this.state.visibleUploader} onHide={this.eraseModal}>
                                 <Modal.Header>
-                                    <Modal.Title>{response.status}</Modal.Title>
+                                    <Modal.Title>{response.status} {response.statusText}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    {response.statusText}
+                                    {json}
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button onClick={this.eraseModal}>Cerrar</Button>

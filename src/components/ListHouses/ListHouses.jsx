@@ -50,9 +50,9 @@ class ListHouses extends Component {
                             <h3>{item.sellingPrize}€</h3>
                             <p>{item.country}</p>
                             <p>{item.city}</p>
-                            {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
-                            {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
                         </Thumbnail>
+                        {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
+                        {this.props.url === URLS.BIDS_BY_USER && <Button> STATUS BID </Button>}
                         {this.props.url === URLS.USER_HOUSES && <Button onClick={() => this.uploadImage(item.id)}> SUBIR FOTO </Button>}
                         {this.props.url === URLS.USER_HOUSES && <Button onClick={() => this.showTable(item.id)}> OFERTAS </Button>}
                     </Col>

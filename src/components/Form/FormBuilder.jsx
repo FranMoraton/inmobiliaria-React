@@ -127,10 +127,10 @@ class FormBuilder extends Component {
                         <div>
                             <Modal show={this.state.visibleUploader} onHide={this.eraseModal}>
                                 <Modal.Header>
-                                    <Modal.Title>{responseFromForm.status}</Modal.Title>
+                                    <Modal.Title>{responseFromForm.status} {responseFromForm.statusText}</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    {responseFromForm.statusText}
+                                    {json}
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button onClick={this.eraseModal}>Cerrar</Button>
@@ -140,11 +140,34 @@ class FormBuilder extends Component {
                 })
             }
 
-                       
+
             if (200 === responseFromForm.status && URLS.LOGIN === this.props.url) {
-                
+
                 this.props.logInCallBack(json[0].dni);
             }
+
+            if (200 === responseFromForm.status && URLS.LOGIN !== this.props.url) {
+
+                this.setState({
+                    uploader:
+                        <div>
+                            <Modal show={this.state.visibleUploader} onHide={this.eraseModal}>
+                                <Modal.Header>
+                                    <Modal.Title>{responseFromForm.status} {responseFromForm.statusText}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    Insertado con exito
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <Button onClick={this.eraseModal}>Cerrar</Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </div>
+                })
+            }
+
+
+
         }
 
         call();
